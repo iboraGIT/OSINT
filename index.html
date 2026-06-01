@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ WARNING ⚠️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .brainrot-term {
+            position: absolute;
+            white-space: nowrap;
+            user-select: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .center-box {
+            position: relative;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 30px 50px;
+            border: 5px solid #ff0055;
+            border-radius: 15px;
+            box-shadow: 0 0 30px #ff0055, inset 0 0 15px #ff0055;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        .center-text {
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 3px 3px 0px #ff0055, -3px -3px 0px #00ffff;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 768px) {
+            .center-text {
+                font-size: 2rem;
+            }
+            .center-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bg-container"></div>
+
+    <div class="center-box">
+        <h1 class="center-text">T'es chelou pourquoi tu veux le lien?</h1>
+    </div>
+
+    <script>
+        const terms = [
+            'skibidi toilet', 'labubu', '67', 'six seven', 
+            'skibidi tenta fruit', 'tung tung tung sahur', 'gyatt', 
+            'rizz', 'sigma', 'ohio', 'mewing', 'grimace shake', 
+            'fanum tax', 'skibidi', 'livvy dunne', 'baby gronk',
+            'pourtant', 'hawk tuah', 'chipi chipi', 'chapa chapa'
+        ];
+
+        const colors = [
+            '#ff0055', '#00ffff', '#00ff00', '#ffff00', 
+            '#ff00ff', '#ff9900', '#ffffff', '#7000ff'
+        ];
+
+        const container = document.getElementById('bg-container');
+        const count = 65;
+
+        for (let i = 0; i < count; i++) {
+            const span = document.createElement('span');
+            span.classList.add('brainrot-term');
+            span.textContent = terms[Math.floor(Math.random() * terms.length)];
+            
+            const size = Math.random() * (2.2 - 0.8) + 0.8;
+            span.style.fontSize = `${size}rem`;
+            span.style.color = colors[Math.floor(Math.random() * colors.length)];
+            span.style.opacity = Math.random() * (0.9 - 0.4) + 0.4;
+
+            const startX = Math.random() * window.innerWidth;
+            const startY = Math.random() * window.innerHeight;
+            span.style.left = `${startX}px`;
+            span.style.top = `${startY}px`;
+
+            container.appendChild(span);
+
+            let speedX = (Math.random() - 0.5) * 4;
+            let speedY = (Math.random() - 0.5) * 4;
+            if (Math.abs(speedX) < 0.5) speedX = speedX < 0 ? -1 : 1;
+            if (Math.abs(speedY) < 0.5) speedY = speedY < 0 ? -1 : 1;
+
+            let currentX = startX;
+            let currentY = startY;
+
+            function animate() {
+                const rect = span.getBoundingClientRect();
+                
+                currentX += speedX;
+                currentY += speedY;
+
+                if (currentX <= 0 || currentX + rect.width >= window.innerWidth) {
+                    speedX *= -1;
+                }
+                if (currentY <= 0 || currentY + rect.height >= window.innerHeight) {
+                    speedY *= -1;
+                }
+
+                span.style.left = `${currentX}px`;
+                span.style.top = `${currentY}px`;
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.addEventListener('resize', () => {
+            const elements = document.querySelectorAll('.brainrot-term');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.right > window.innerWidth) {
+                    el.style.left = `${window.innerWidth - rect.width - 10}px`;
+                }
+                if (rect.bottom > window.innerHeight) {
+                    el.style.top = `${window.innerHeight - rect.height - 10}px`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
